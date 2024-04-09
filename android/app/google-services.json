@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "249163731164",
+    "project_id": "blood-bank-annur",
+    "storage_bucket": "blood-bank-annur.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:249163731164:android:4ed3df8c20bc1bb678e419",
+        "android_client_info": {
+          "package_name": "com.example.blood_bank"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMoZ2lrgn0OKjC9u6XOgow8avYvOP8rGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

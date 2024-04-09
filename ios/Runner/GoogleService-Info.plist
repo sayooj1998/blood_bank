@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBnLgOizOMnejTNmW2mg6U0IJd7vgZx5AE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>249163731164</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.bloodBank</string>
+	<key>PROJECT_ID</key>
+	<string>blood-bank-annur</string>
+	<key>STORAGE_BUCKET</key>
+	<string>blood-bank-annur.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:249163731164:ios:4fd1563a1149c70178e419</string>
+</dict>
+</plist>
