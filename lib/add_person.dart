@@ -53,8 +53,43 @@ class Person extends StatelessWidget {
                   child: Form(
                     key: _formKey,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        TextButton(
+                          onPressed: () async {
+                            // Your existing contact selection logic here
+                            List<String>? _contacts;
+                            String? _name;
+                            Contact? contact =
+                                await _contactPicker.selectContact();
+                            _contacts =
+                                contact == null ? null : contact.phoneNumbers;
+                            _name = contact == null ? null : contact.fullName;
+                            if (_contacts != null) {
+                              phoneController.text = _contacts[0].toString();
+                            }
+                            if (_name != null) {
+                              nameController.text = _name;
+                            }
+                          },
+                          child: Text('Pick From Contact'),
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith<Color?>(
+                              (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.pressed)) {
+                                  return Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(0.5);
+                                }
+                                return null; // Use the component's default.
+                              },
+                            ),
+                          ),
+                        ),
+                        Divider(),
+                        const SizedBox(height: 15),
                         TextFormField(
                           controller: nameController,
                           decoration: InputDecoration(
@@ -70,6 +105,7 @@ class Person extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         TextFormField(
+                          readOnly: true,
                           controller: groupController,
                           decoration: InputDecoration(
                             labelText: 'Blood Group',
@@ -117,19 +153,6 @@ class Person extends StatelessWidget {
                             return null;
                           },
                         ),
-                        TextButton(
-                          onPressed: () async {
-                            List<String>? _contacts;
-                            Contact? contact =
-                                await _contactPicker.selectContact();
-                            _contacts =
-                                contact == null ? null : contact.phoneNumbers;
-                            if (_contacts != null) {
-                              phoneController.text = _contacts[0].toString();
-                            }
-                          },
-                          child: Text('Pick Contact'),
-                        ),
                         const SizedBox(height: 10),
                         Row(
                           children: [
@@ -148,17 +171,20 @@ class Person extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            ElevatedButton(
+                            FilledButton(
                               onPressed: () async {
                                 imageFile = await controller.pickProfileImage();
                               },
                               child: const Text("Upload Image"),
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStatePropertyAll(
+                                      Colors.blueGrey)),
                             )
                           ],
                         ),
                         const SizedBox(height: 20),
                         Center(
-                          child: ElevatedButton(
+                          child: FilledButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 if (await ConnectivityWrapper
@@ -212,6 +238,9 @@ class Person extends StatelessWidget {
                               }
                             },
                             child: const Text('Save'),
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(Colors.teal[800])),
                           ),
                         ),
                       ],

@@ -20,11 +20,13 @@ class Donor {
 
   @HiveField(4)
   late String? date;
-
+  // @HiveField(5)
+  // late String id;
   Donor({
     required this.name,
     required this.group,
     required this.phone,
+    // required this.id,
     this.date,
     this.imageData,
   });
