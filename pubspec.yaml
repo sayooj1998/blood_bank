@@ -46,11 +46,22 @@ dependencies:
   connectivity_checker: ^1.1.0
   path_provider: ^2.1.2
   url_launcher: ^6.2.5
+  icons_launcher: ^2.1.7
+  flutter_native_contact_picker: ^0.0.6
+  loading_animation_widget: ^1.2.1
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+icons_launcher:
+  image_path: "assets/images/blood-donation.png"
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

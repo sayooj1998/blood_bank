@@ -12,9 +12,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 class DetailsController extends GetxController {
   RxString? url = ''.obs;
+  RxString selectedBloodGroup = 'A+'.obs;
   RxBool isLoading = false.obs;
   final selectedImage = Rxn<File>();
-
+  RxString contacts = ''.obs;
   File? get selectedProfile => selectedImage.value;
 
   Future<File?> pickProfileImage() async {
@@ -84,6 +85,7 @@ class DetailsController extends GetxController {
             String group = document['group'];
             String phone = document['phone'];
             String? image = document['image'];
+            String id = document.id;
             Uint8List? bytes;
             // Check if image field exists and if it contains a valid URL
             if (image != null &&
@@ -96,6 +98,7 @@ class DetailsController extends GetxController {
             }
             // Create Donor object
             Donor myData = Donor(
+              // id: id,
               name: name,
               group: group,
               phone: phone,
@@ -107,6 +110,7 @@ class DetailsController extends GetxController {
             String name = document['name'];
             String group = document['group'];
             String phone = document['phone'];
+            String id = document.id;
             // String? image = document['image'];
             // // Uint8List? bytes;
             // // Check if image field exists and if it contains a valid URL
@@ -120,6 +124,7 @@ class DetailsController extends GetxController {
             // }
             // Create Donor object
             Donor myData = Donor(
+              // id: id,
               name: name,
               group: group,
               phone: phone,

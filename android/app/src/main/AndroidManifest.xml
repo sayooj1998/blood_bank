@@ -3,7 +3,7 @@
    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
       <application
-        android:label="blood_bank"
+        android:label="Blood Donors Admin"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -6,10 +6,12 @@ import 'package:blood_bank/listController.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_checker/connectivity_checker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Person extends StatelessWidget {
-  Person({super.key});
+  Person({Key? key}) : super(key: key);
   DetailsController controller = Get.put(DetailsController());
   ListController listController = Get.put(ListController());
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -17,6 +19,19 @@ class Person extends StatelessWidget {
   final TextEditingController groupController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final InternetCheck internetCheck = Get.put(InternetCheck());
+  final FlutterContactPicker _contactPicker = FlutterContactPicker();
+
+  final List<String> bloodGroups = [
+    "A+",
+    "A-",
+    "B+",
+    "B-",
+    "AB+",
+    "AB-",
+    "O+",
+    "O-",
+  ];
+
   File? imageFile;
   @override
   Widget build(BuildContext context) {
@@ -26,7 +41,12 @@ class Person extends StatelessWidget {
           title: const Text('Enter Details'),
         ),
         body: controller.isLoading.value
-            ? Center(child: CircularProgressIndicator())
+            ? Center(
+                child: LoadingAnimationWidget.dotsTriangle(
+                  color: Colors.red,
+                  size: 200,
+                ),
+              )
             : SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -37,8 +57,10 @@ class Person extends StatelessWidget {
                       children: [
                         TextFormField(
                           controller: nameController,
-                          decoration: const InputDecoration(labelText: 'Name'),
-                          // keyboardType: TextInputType.number, // Only numbers
+                          decoration: InputDecoration(
+                            labelText: 'Name',
+                            border: OutlineInputBorder(),
+                          ),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please enter your name';
@@ -49,8 +71,10 @@ class Person extends StatelessWidget {
                         const SizedBox(height: 10),
                         TextFormField(
                           controller: groupController,
-                          decoration:
-                              const InputDecoration(labelText: 'Blood Group'),
+                          decoration: InputDecoration(
+                            labelText: 'Blood Group',
+                            border: OutlineInputBorder(),
+                          ),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please enter Blood Group';
@@ -59,16 +83,52 @@ class Person extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 10),
+                        DropdownButtonFormField<String>(
+                          value: controller.selectedBloodGroup.value,
+                          decoration: InputDecoration(
+                            labelText: 'Select Blood Group',
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (String? newBloodGroup) {
+                            controller.selectedBloodGroup.value =
+                                newBloodGroup!;
+                            groupController.text = newBloodGroup;
+                          },
+                          items: bloodGroups
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                        const SizedBox(height: 10),
                         TextFormField(
                           controller: phoneController,
-                          decoration: const InputDecoration(labelText: 'Phone'),
-                          keyboardType: TextInputType.number, // Only numbers
+                          decoration: InputDecoration(
+                            labelText: 'Phone',
+                            border: OutlineInputBorder(),
+                          ),
+                          keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please enter your phone number';
                             }
                             return null;
                           },
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            List<String>? _contacts;
+                            Contact? contact =
+                                await _contactPicker.selectContact();
+                            _contacts =
+                                contact == null ? null : contact.phoneNumbers;
+                            if (_contacts != null) {
+                              phoneController.text = _contacts[0].toString();
+                            }
+                          },
+                          child: Text('Pick Contact'),
                         ),
                         const SizedBox(height: 10),
                         Row(
@@ -78,8 +138,7 @@ class Person extends StatelessWidget {
                                 width: 120,
                                 height: 120,
                                 child: FittedBox(
-                                  fit: BoxFit
-                                      .cover, // Choose your desired BoxFit
+                                  fit: BoxFit.cover,
                                   child: controller.selectedImage?.value != null
                                       ? Image.file(
                                           controller.selectedImage!.value!)
@@ -105,7 +164,6 @@ class Person extends StatelessWidget {
                                 if (await ConnectivityWrapper
                                     .instance.isConnected) {
                                   controller.isLoading.value = true;
-
                                   print('internet');
                                   await controller.uploadImage(imageFile);
 
@@ -137,9 +195,11 @@ class Person extends StatelessWidget {
                                   controller.isLoading.value = false;
                                 } else {
                                   print('no  internet');
-                                  SnackBar(
-                                    content: Text("NO Internet!..."),
-                                    backgroundColor: Colors.red,
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("NO Internet!..."),
+                                      backgroundColor: Colors.red,
+                                    ),
                                   );
                                 }
                                 // await controller.getDataFromFirebaseAndSaveToHive();

@@ -16,7 +16,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
-        title: const Text("Blood Bank"),
+        title: Center(child: const Text("Blood Donors")),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
@@ -169,7 +169,10 @@ class HomePage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10),
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     width: screenWidth * 0.9,
-                    color: Colors.red[200],
+                    // color: Colors.red[200],
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.red[200]),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -191,14 +194,20 @@ class HomePage extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SelectableText(item.name.capitalize!),
+                            SelectableText(
+                              item.name.capitalize!,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
                             const SizedBox(height: 15),
                             SelectableText(item.phone)
                           ],
                         ),
                         Column(
                           children: [
-                            Text(item.group.capitalize!),
+                            Text(item.group.capitalize!,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
                             IconButton(
                                 onPressed: () async {
                                   await listController
